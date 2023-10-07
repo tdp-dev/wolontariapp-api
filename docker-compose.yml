@@ -7,7 +7,7 @@ services:
       - ./src:/src/
     build:
       dockerfile: Dockerfile
-      context: fastapi
+      context: ./
     env_file:
       - .env
   mongo:
