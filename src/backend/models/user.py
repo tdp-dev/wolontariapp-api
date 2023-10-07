@@ -1,10 +1,12 @@
-from datetime import datetime
+from datetime import datetime, date
 from typing import Optional
 
 from beanie import Document
 from pydantic import field_validator, Field
 from fastapi_users.db import BeanieBaseUser, BeanieUserDatabase
 from fastapi_permissions import Allow
+from pymongo import IndexModel
+from pymongo.collation import Collation
 
 from backend.settings import get_settings
 from backend.azure_blob_storage import generate_blob_url
@@ -17,7 +19,7 @@ class User(BeanieBaseUser, Document):
     first_name: str
     last_name: str
     profile_img: Optional[str] = None
-    age: int
+    date_of_born: datetime
     date_created: datetime = Field(default_factory=datetime.now)
 
     def __acl__(self):

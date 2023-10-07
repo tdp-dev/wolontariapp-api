@@ -1,5 +1,5 @@
 from typing import Optional
-from datetime import datetime
+from datetime import datetime, date
 
 from beanie import PydanticObjectId
 from fastapi_users import schemas
@@ -12,16 +12,15 @@ class UserRead(schemas.BaseUser[PydanticObjectId]):
     )
     first_name: str
     last_name: str
-    age: int
+    date_of_born: date
     date_created: datetime
     profile_img: Optional[str] = None
-
 
 
 class UserCreate(schemas.BaseUserCreate):
     first_name: str
     last_name: str
-    age: int
+    date_of_born: str
 
 
 class UserUpdate(schemas.BaseUserUpdate):
