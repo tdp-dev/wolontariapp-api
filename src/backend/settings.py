@@ -15,6 +15,11 @@ class Settings(BaseConfig):
     SECRET_KEY = env("SECRET_KEY")
     JWT_LIFETIME = env.int("JWT_LIFETIME")
     REFRESH_TOKEN_LIFETIME = env.int("REFRESH_TOKEN_LIFETIME")
+    AZURE_STORAGE = {
+        "ACCOUNT_NAME": env("AZURE_STORAGE_ACCOUNT_NAME"),
+        "KEY": env("AZURE_STORAGE_ACCOUNT_KEY"),
+        "SAS_LIFETIME": env.int("AZURE_STORAGE_SAS_LIFETIME"),
+    }
 
 
 @lru_cache
