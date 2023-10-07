@@ -6,6 +6,12 @@ from pydantic import field_validator, Field
 from fastapi_users.db import BeanieBaseUser, BeanieUserDatabase
 from fastapi_permissions import Allow
 
+from backend.settings import get_settings
+from backend.azure_blob_storage import generate_blob_url
+
+
+settings = get_settings()
+
 
 class User(BeanieBaseUser, Document):
     first_name: str
@@ -23,9 +29,11 @@ class User(BeanieBaseUser, Document):
             (Allow, "role:admin", "delete"),
         ]
 
-    # @field_validator("date_created")
-    # def get_date_created(self, value):
-    #     return datetime.now()
+    @field_validator("profile_img")
+    def get_preview_url(cls, value):
+        settings = get_settings()
+        if value is not None:
+            return generate_blob_url(settings, "profile-images", value)
 
 
 async def get_user_db():

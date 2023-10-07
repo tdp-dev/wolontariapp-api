@@ -4,7 +4,6 @@ from datetime import datetime
 from beanie import PydanticObjectId
 from fastapi_users import schemas
 from pydantic import Field, AliasChoices
-from fastapi_users import models
 
 
 class UserRead(schemas.BaseUser[PydanticObjectId]):
@@ -15,6 +14,8 @@ class UserRead(schemas.BaseUser[PydanticObjectId]):
     last_name: str
     age: int
     date_created: datetime
+    profile_img: Optional[str] = None
+
 
 
 class UserCreate(schemas.BaseUserCreate):
