@@ -3,7 +3,9 @@ from datetime import datetime, date
 
 from beanie import PydanticObjectId
 from fastapi_users import schemas
-from pydantic import Field, AliasChoices
+from pydantic import Field, AliasChoices, field_validator, model_validator
+
+from backend.repositories.registration import fetch_user_events_count
 
 
 class UserRead(schemas.BaseUser[PydanticObjectId]):
@@ -15,6 +17,7 @@ class UserRead(schemas.BaseUser[PydanticObjectId]):
     date_of_born: date
     date_created: datetime
     profile_img: Optional[str] = None
+    events_count: Optional[int] = None
 
 
 class UserCreate(schemas.BaseUserCreate):

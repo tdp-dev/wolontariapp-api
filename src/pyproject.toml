@@ -15,6 +15,8 @@ fastapi-permissions = "^0.2.7"
 fastapi-cache2 = {extras = ["redis"], version = "^0.2.1"}
 azure-storage-blob = "^12.18.2"
 azure-identity = "^1.14.0"
+black = "^23.9.1"
+pydantic-async-validation = "^0.1.0"
 
 
 [build-system]

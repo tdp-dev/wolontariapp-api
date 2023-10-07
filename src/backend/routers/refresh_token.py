@@ -52,3 +52,4 @@ async def login_with_refresh_token(
 @router.post("/logout", status_code=204)
 async def logout(user: Annotated[User, Depends(current_active_user)]):
     await deactivate_refresh_token(user)
+
