@@ -20,6 +20,7 @@ class Settings(BaseConfig):
         "KEY": env("AZURE_STORAGE_ACCOUNT_KEY"),
         "SAS_LIFETIME": env.int("AZURE_STORAGE_SAS_LIFETIME"),
     }
+    GOOGLE_API_KEY = env("GOOGLE_API_KEY")
 
 
 @lru_cache
