@@ -9,6 +9,7 @@ from backend.models import User
 from backend.repositories.users import (
     fetch_many_user,
 )
+from backend.repositories.registration import fetch_user_events_count
 from backend.auth import current_active_user
 from backend.settings import get_settings, Settings
 from backend.azure_blob_storage import upload_blob
@@ -32,3 +33,11 @@ async def update_profile_image(
     upload_blob(settings, "profile-images", str(user.id), await image.read())
     await user.update(Set({"profile_img": str(user.id)}))
     return user
+
+
+
+@router.get("/me/event-counts", response_model=int)
+async def update_profile_image(
+        user: Annotated[User, Depends(current_active_user)],
+):
+    return await fetch_user_events_count(user)
