@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "cookiecutter-fastapi-beanie"
+name = "wolontariapp"
 version = "0.1.0"
-description = "Cookie Cutter fastapi template with beanie odm"
+description = "REST Full API for wolontariapp"
 authors = ["Roland Sobczak <rolandsobczak@icloud.com>"]
 readme = "README.md"
 
