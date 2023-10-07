@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "cookiecutter-fastapi-beanie"
+version = "0.1.0"
+description = "Cookie Cutter fastapi template with beanie odm"
+authors = ["Roland Sobczak <rolandsobczak@icloud.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = {extras = ["all"], version = "^0.103.2"}
+gunicorn = "^21.2.0"
+fastapi-users = {extras = ["beanie"], version = "^12.1.2"}
+environs = "^9.5.0"
+fastapi-permissions = "^0.2.7"
+fastapi-cache2 = {extras = ["redis"], version = "^0.2.1"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
