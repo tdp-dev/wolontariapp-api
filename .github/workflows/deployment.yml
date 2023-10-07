@@ -24,6 +24,6 @@ jobs:
         uses: azure/container-apps-deploy-action@v1
         with:
           appSourcePath: ${{ github.workspace }}
-          acrName: {{ cookiecutter.arc_name }}
-          containerAppName: {{ cookiecutter.container_app_name }}
-          resourceGroup: {{ cookiecutter.resource_group }}
+          acrName: wolontariapp
+          containerAppName: wolontariapp
+          resourceGroup: wolontariapp
