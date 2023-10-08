@@ -5,10 +5,10 @@ from fastapi_cache.backends.redis import RedisBackend
 from fastapi_cache import FastAPICache
 
 from backend.db import db
-from backend.models import User, RefreshToken, Event, Registration
+from backend.models import User, RefreshToken, Event, Registration, Notification
 from backend.schemas.users import UserCreate, UserRead, UserUpdate
 from backend.auth import auth_backend, fastapi_users
-from backend.routers import refresh_token, users, events, registration
+from backend.routers import refresh_token, users, events, registration, notifications
 from backend.settings import get_settings
 
 SETTINGS = get_settings()
@@ -44,6 +44,7 @@ app.include_router(
 app.include_router(router=refresh_token.router)
 app.include_router(router=events.router)
 app.include_router(router=registration.router)
+app.include_router(router=notifications.router)
 
 
 @app.on_event("startup")
@@ -55,6 +56,7 @@ async def on_startup():
             RefreshToken,
             Event,
             Registration,
+            Notification,
         ],
     )
     redis = aioredis.from_url(SETTINGS.REDIS_URI)
