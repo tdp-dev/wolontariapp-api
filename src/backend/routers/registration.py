@@ -1,6 +1,8 @@
 from typing import Annotated
+from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, Body
+import requests
 
 from backend.schemas.registration import RegistrationSchema, RegistrationStatusChangeSchema
 from backend.repositories.registration import (
@@ -45,8 +47,27 @@ async def patch_registration(event_id: str, registration_id: str, status: Annota
     await update_registration(registration, status=status)
     event = await fetch_event(event_id)
     if status == RegistrationStatus.ACCEPTED:
-        await create_notification(user=registration.user, details=f"Twoje zgłoszenie na {event.title} zostało przyjęte")
+        title = f"Twoje zgłoszenie na {event.title} zostało przyjęte. Do zobaczenia!"
+        headers = {
+            'Content-Type': 'application/json',  # Example Content-Type header
+        }
+        r = requests.post("https://app.nativenotify.com/api/notification", headers=headers, json={
+            "appId": 13165,
+            "appToken": "kNO4xyRaS937fGOVliTZHV",
+            "title": "Wolontariapp",
+            "body": title,
+            "dateSent": "10-8-2023 1:41PM",
+        })
+        print(r.text)
+
     elif status == RegistrationStatus.REJECTED:
-        await create_notification(user=registration.user, details=f"Twoje zgłoszenie na {event.title} zostało odrzucone")
+        title = f"Twoje zgłoszenie na {event.title} zostało odrzucone"
+        requests.post("https://app.nativenotify.com/api/notification", data={
+            "appId": 13165,
+            "appToken": "kNO4xyRaS937fGOVliTZHV",
+            "title": "Wolontariapp",
+            "body": title,
+            "dateSent": datetime.now(),
+        })
     return await fetch_one_registration(registration_id)
 
