@@ -3,7 +3,13 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Body
 
 from backend.schemas.registration import RegistrationSchema, RegistrationStatusChangeSchema
-from backend.repositories.registration import insert_registration, update_registration, fetch_one_registration, fetch_many_registrations
+from backend.repositories.registration import (
+    insert_registration,
+    update_registration,
+    fetch_one_registration,
+    fetch_many_registrations
+)
+from backend.repositories.notification import create_notification
 from backend.repositories.events import fetch_event
 from backend.auth import current_active_user
 from backend.models import User
@@ -32,10 +38,15 @@ async def get_many_registrations(event_id: str, page: int = 0, per_page: int = 1
 
 
 @router.patch("/{registration_id}", response_model=RegistrationSchema)
-async def patch_registration(registration_id: str, status: Annotated[RegistrationStatus, Body(...)]):
+async def patch_registration(event_id: str, registration_id: str, status: Annotated[RegistrationStatus, Body(...)]):
     registration = await fetch_one_registration(registration_id)
     if registration is None:
         raise HTTPException(status_code=404, detail="Registration does not exists.")
     await update_registration(registration, status=status)
+    event = await fetch_event(event_id)
+    if status == RegistrationStatus.ACCEPTED:
+        await create_notification(user=registration.user, details=f"Twoje zgłoszenie na {event.title} zostało przyjęte")
+    elif status == RegistrationStatus.REJECTED:
+        await create_notification(user=registration.user, details=f"Twoje zgłoszenie na {event.title} zostało odrzucone")
     return await fetch_one_registration(registration_id)
 
