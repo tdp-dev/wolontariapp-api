@@ -12,8 +12,12 @@ async def fetch_one_registration(registration_id: int) -> Registration | None:
     return await Registration.get(registration_id, fetch_links=True)
 
 
-async def fetch_many_registrations(event: Event, page: int = 0, per_page: int = 10) -> list[Registration]:
-    return await Registration.find(Registration.event.id == event.id, fetch_links=True).skip(page * per_page).limit(per_page).to_list()
+async def fetch_many_registrations(event: Event, page: int = 0, per_page: int = 10, status: RegistrationStatus | None = None) -> list[Registration]:
+    status_query = []
+    if status is not None:
+        print(status)
+        status_query.append(Registration.status == status)
+    return await Registration.find(Registration.event.id == event.id, *status_query, fetch_links=True).skip(page * per_page).limit(per_page).to_list()
 
 
 async def update_registration(registration, **registration_data) -> None:

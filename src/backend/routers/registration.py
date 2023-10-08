@@ -24,11 +24,11 @@ async def create_registration(event_id: str, user: Annotated[User, Depends(curre
 
 
 @router.get("", response_model=list[RegistrationSchema])
-async def get_many_registrations(event_id: str, page: int = 0, per_page: int = 10):
+async def get_many_registrations(event_id: str, page: int = 0, per_page: int = 10, status: RegistrationStatus | None = None):
     event = await fetch_event(event_id)
     if event is None:
         raise HTTPException(status_code=404, detail="Event does not exists.")
-    return await fetch_many_registrations(event, page, per_page)
+    return await fetch_many_registrations(event, page, per_page, status)
 
 
 @router.patch("/{registration_id}", response_model=RegistrationSchema)
