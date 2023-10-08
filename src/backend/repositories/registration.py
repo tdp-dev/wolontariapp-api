@@ -8,7 +8,7 @@ async def insert_registration(**registration_data) -> Registration:
     return await Registration(**registration_data).insert()
 
 
-async def fetch_one_registration(registration_id: int) -> Registration | None:
+async def fetch_one_registration(registration_id: str) -> Registration | None:
     return await Registration.get(registration_id, fetch_links=True)
 
 
